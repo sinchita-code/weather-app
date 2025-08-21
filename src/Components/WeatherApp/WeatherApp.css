@@ -1,0 +1,279 @@
+/* ================= Base Background ================= */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #0f2027, #2c5364, #203a43); /* default */
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+  transition: background 1s ease-in-out, background-image 1s ease-in-out;
+  background-size: cover;
+  background-position: center;
+}
+
+/* === Dynamic Backgrounds === */
+body.sunny {
+  background: url("https://images.unsplash.com/photo-1501973801540-537f08ccae7b")
+    no-repeat center center / cover;
+}
+
+body.rainy {
+  background: url("https://thumb.r2.moele.me/t/38838/38828992/a-0005.jpg")
+    no-repeat center center / cover;
+  background-blend-mode: overlay;
+}
+
+body.snowy {
+  background: url("https://kalumatravel.co.uk/wp-content/uploads/2017/09/Snow.jpg")
+    no-repeat center center / cover;
+}
+
+body.cloudy {
+  background: url("https://images.unsplash.com/photo-1500835556837-99ac94a94552")
+    no-repeat center center / cover;
+}
+
+body.default-bg {
+  background: url("https://images.unsplash.com/photo-1503264116251-35a269479413")
+    no-repeat center center / cover;
+}
+body.drizzle {
+  background: url("https://postimg.cc/PC0swwtK")
+    no-repeat center center / cover;
+}
+body.thunderstorm {
+  background: url("https://images.unsplash.com/photo-1500674425229-f692875b0ab7")
+    no-repeat center center / cover;
+}
+body.mist {
+  background: url("https://unsplash.com/photos/a-person-riding-a-surfboard-on-a-wave-in-the-ocean--_rLOQp8aZk")
+    no-repeat center center / cover;
+}
+body.haze {
+  background: url("https://www.freepik.com/free-photo/view-metro-city-buildings-cityscape_2765754.htm#fromView=keyword&page=1&position=0&uuid=f49fb266-6fcd-4807-9fe5-34aebbfdc597&query=Haze+Weather")
+    no-repeat center center / cover;
+}
+/* ================= Glassmorphism Container ================= */
+.container {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 10px;
+  width: 480px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  transition: all 0.3s ease-in-out;
+}
+
+.container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
+}
+
+/* ================= Search Bar ================= */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 15px;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  box-shadow: inset 0 1px 6px rgba(255, 255, 255, 0.2);
+}
+
+.CityInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: white;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+
+.CityInput::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.search-icon img {
+  width: 24px;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.search-icon img:hover {
+  transform: scale(1.2);
+}
+
+/* ================= Weather Display ================= */
+.weather-image img {
+  width: 120px;
+  margin: 20px auto;
+  filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.5));
+}
+
+.weather-temp {
+  font-size: 64px;
+  font-weight: bold;
+  margin-top: 5px;
+  background: linear-gradient(45deg, #ff6a00, #ee0979);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 20px rgba(255, 120, 80, 0.6);
+}
+
+.weather-location {
+  font-size: 26px;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+.weather-description {
+  font-size: 16px;
+  opacity: 0.9;
+  margin-top: 4px;
+}
+
+/* ================= Info Cards ================= */
+.info-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 25px 0;
+}
+
+.info-card {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 14px;
+  border-radius: 15px;
+  flex: 1;
+  margin: 0 6px;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.info-card:hover {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.info-card img {
+  width: 32px;
+  margin-bottom: 8px;
+}
+
+.info-card h4 {
+  margin: 6px 0 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* ================= Hourly Forecast ================= */
+.section {
+  margin: 25px 0;
+  text-align: left;
+}
+
+.section h3 {
+  margin-bottom: 12px;
+  font-weight: 600;
+  color: #ffd369;
+  text-shadow: 0 1px 8px rgba(255, 211, 105, 0.7);
+}
+
+.hourly-forecast {
+  display: flex;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 12px;
+  box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.15);
+}
+
+.hour {
+  flex: 1;
+  text-align: center;
+  font-size: 14px;
+  transition: transform 0.2s;
+}
+
+.hour p {
+  margin-top: 4px;
+  font-weight: bold;
+}
+
+.hour:hover {
+  transform: scale(1.1);
+  color: #ffd369;
+}
+
+/* ================= Extra Info ================= */
+.extra-info {
+  display: flex;
+  justify-content: space-between;
+  margin: 25px 0;
+}
+
+.card {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 15px;
+  padding: 16px;
+  margin: 0 6px;
+  transition: all 0.3s;
+  text-align: center;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.card h4 {
+  margin: 0 0 6px;
+  font-size: 16px;
+}
+
+.card p {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ff6a00;
+  text-shadow: 0 1px 8px rgba(255, 106, 0, 0.6);
+}
+
+.good {
+  font-size: 13px;
+  color: lightgreen;
+  font-weight: 500;
+}
+
+/* ================= Sun Schedule ================= */
+.sun-schedule {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.sun-schedule div {
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.12);
+  padding: 12px 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s;
+}
+
+.sun-schedule div:hover {
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.sun-schedule span {
+  font-weight: bold;
+  color: #ffd369;
+}
