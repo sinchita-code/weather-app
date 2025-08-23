@@ -16,7 +16,7 @@ body {
 
 /* === Dynamic Backgrounds === */
 body.sunny {
-  background: url("https://images.unsplash.com/photo-1501973801540-537f08ccae7b")
+  background: url("https://i.postimg.cc/FRddHYbC/ritam-baishya-ROVBDer29-PQ-unsplash.jpg")
     no-repeat center center / cover;
 }
 
@@ -41,7 +41,7 @@ body.default-bg {
     no-repeat center center / cover;
 }
 body.drizzle {
-  background: url("https://postimg.cc/PC0swwtK")
+  background: url("https://i.postimg.cc/SNJMZtzb/raindrops-misted-on-a-windscreen-2.jpg")
     no-repeat center center / cover;
 }
 body.thunderstorm {
@@ -121,8 +121,8 @@ body.haze {
   font-weight: bold;
   margin-top: 5px;
   background: linear-gradient(45deg, #ff6a00, #ee0979);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text; 
+  -webkit-text-fill-color: transparent; 
   text-shadow: 0 2px 20px rgba(255, 120, 80, 0.6);
 }
 
