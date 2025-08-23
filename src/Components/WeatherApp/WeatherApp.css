@@ -121,7 +121,7 @@ body.haze {
   font-weight: bold;
   margin-top: 5px;
   background: linear-gradient(45deg, #ff6a00, #ee0979);
-  -webkit-background-clip: text;
+  /* -webkit-background-clip: text; */
   -webkit-text-fill-color: transparent;
   text-shadow: 0 2px 20px rgba(255, 120, 80, 0.6);
 }
