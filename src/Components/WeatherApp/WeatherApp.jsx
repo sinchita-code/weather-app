@@ -13,7 +13,20 @@ import windIcon from '../Assets/wind.png';
 const WeatherApp = () => {
     let api_key = "";
 
+    // 🔹 React states
     const [wicon, setWicon] = useState(cloudIcon);
+    const [temperature, setTemperature] = useState("--°C");
+    const [location, setLocation] = useState("---");
+    const [description, setDescription] = useState("---");
+    const [humidity, setHumidity] = useState("--%");
+    const [wind, setWind] = useState("-- km/h");
+    const [precip, setPrecip] = useState("--%");
+    const [feelsLike, setFeelsLike] = useState("--°C");
+    const [sunrise, setSunrise] = useState("--");
+    const [sunset, setSunset] = useState("--");
+    const [aqi, setAqi] = useState("-- AQI");
+    const [aqiStatus, setAqiStatus] = useState("--");
+    const [hourlyForecast, setHourlyForecast] = useState([]);
 
     // Default background
     useEffect(() => {
@@ -22,9 +35,7 @@ const WeatherApp = () => {
 
     const search = async () => {
         const element = document.getElementsByClassName("CityInput");
-        if (element[0].value === "") {
-            return;
-        }
+        if (element[0].value === "") return;
 
         try {
             // 🌡 Current Weather API
@@ -38,70 +49,45 @@ const WeatherApp = () => {
                 return;
             }
 
-            // DOM updates
-            document.querySelector(".humidity-percent").innerHTML = data.main.humidity + "%";
-            document.querySelector(".wind-rate").innerHTML = Math.floor(data.wind.speed) + " km/h";
-            document.querySelector(".weather-temp").innerHTML = Math.floor(data.main.temp) + "°C";
-            document.querySelector(".weather-location").innerHTML = data.name;
-            document.querySelector(".feels-like").innerHTML = Math.floor(data.main.feels_like) + "°C";
-            document.querySelector(".weather-description").innerHTML = data.weather[0].description;
-
-            // Sunrise & Sunset
-            document.querySelector(".sunrise span").innerHTML =
-                new Date(data.sys.sunrise * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            document.querySelector(".sunset span").innerHTML =
-                new Date(data.sys.sunset * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            // ✅ Update state instead of DOM
+            setTemperature(Math.floor(data.main.temp) + "°C");
+            setLocation(data.name);
+            setDescription(data.weather[0].description);
+            setHumidity(data.main.humidity + "%");
+            setWind(Math.floor(data.wind.speed) + " km/h");
+            setFeelsLike(Math.floor(data.main.feels_like) + "°C");
+            setSunrise(
+                new Date(data.sys.sunrise * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            );
+            setSunset(
+                new Date(data.sys.sunset * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            );
 
             // 🎨 Update weather icon
-            if (data.weather[0].icon === "01d" || data.weather[0].icon === "01n") {
-            setWicon(clearIcon);
-        } else if (data.weather[0].icon === "02d" || data.weather[0].icon === "02n") {
-            setWicon(cloudIcon);
-        } else if (data.weather[0].icon === "03d" || data.weather[0].icon === "03n") {
-            setWicon(drizzleIcon);
-        } else if (data.weather[0].icon === "04d" || data.weather[0].icon === "04n") {
-            setWicon(drizzleIcon);
-        } else if (data.weather[0].icon === "09d" || data.weather[0].icon === "09n") {
-            setWicon(rainIcon);
-        } else if (data.weather[0].icon === "10d" || data.weather[0].icon === "10n") {
-            setWicon(rainIcon);
-        } else if (data.weather[0].icon === "13d" || data.weather[0].icon === "13n") {
-            setWicon(snowIcon);
-        } else {
-            setWicon(clearIcon);
-        }
+            if (data.weather[0].icon === "01d" || data.weather[0].icon === "01n") setWicon(clearIcon);
+            else if (data.weather[0].icon === "02d" || data.weather[0].icon === "02n") setWicon(cloudIcon);
+            else if (data.weather[0].icon === "03d" || data.weather[0].icon === "03n") setWicon(drizzleIcon);
+            else if (data.weather[0].icon === "04d" || data.weather[0].icon === "04n") setWicon(drizzleIcon);
+            else if (data.weather[0].icon === "09d" || data.weather[0].icon === "09n") setWicon(rainIcon);
+            else if (data.weather[0].icon === "10d" || data.weather[0].icon === "10n") setWicon(rainIcon);
+            else if (data.weather[0].icon === "13d" || data.weather[0].icon === "13n") setWicon(snowIcon);
+            else setWicon(clearIcon);
 
             // 🌈 Background
             document.body.classList.remove(
                 "sunny", "rainy", "snowy", "cloudy", "drizzle", "thunderstorm", "mist", "haze", "default-bg"
             );
             switch (data.weather[0].main) {
-                case "Clear":
-                    document.body.classList.add("sunny");
-                    break;
-                case "Rain":
-                    document.body.classList.add("rainy");
-                    break;
-                case "Snow":
-                    document.body.classList.add("snowy");
-                    break;
-                case "Clouds":
-                    document.body.classList.add("cloudy");
-                    break;
-                case "Drizzle":
-                    document.body.classList.add("drizzle");
-                    break;
-                case "Thunderstorm":
-                    document.body.classList.add("thunderstorm");
-                    break;
+                case "Clear": document.body.classList.add("sunny"); break;
+                case "Rain": document.body.classList.add("rainy"); break;
+                case "Snow": document.body.classList.add("snowy"); break;
+                case "Clouds": document.body.classList.add("cloudy"); break;
+                case "Drizzle": document.body.classList.add("drizzle"); break;
+                case "Thunderstorm": document.body.classList.add("thunderstorm"); break;
                 case "Mist":
                 case "Fog":
-                case "Haze":
-                    document.body.classList.add("haze");
-                    break;
-                default:
-                    document.body.classList.add("default-bg");
-                    break; // ✅ Explicit break fixes ESLint warning
+                case "Haze": document.body.classList.add("haze"); break;
+                default: document.body.classList.add("default-bg"); break;
             }
 
             // 📍 Get lat/lon
@@ -117,18 +103,16 @@ const WeatherApp = () => {
 
                 // 🌧 Precipitation Probability (next 3h)
                 let precipitationChance = Math.round(forecastData.list[0].pop * 100);
-                document.querySelector(".precip-rate").innerHTML = precipitationChance + "%";
+                setPrecip(precipitationChance + "%");
 
-                // Hourly Forecast
-                let hourlyContainer = document.querySelector(".hourly-forecast");
-                hourlyContainer.innerHTML = "";
-                for (let i = 0; i < 6; i++) {
-                    let hourData = forecastData.list[i];
-                    let time = new Date(hourData.dt * 1000).toLocaleTimeString([], { hour: 'numeric' });
-                    let temp = Math.floor(hourData.main.temp);
-                    let pop = Math.round(hourData.pop * 100);
-                    hourlyContainer.innerHTML += `<div class="hour">${time}<p>${temp}° | ${pop}%</p></div>`;
-                }
+                // Hourly Forecast (next 6 entries)
+                const hours = forecastData.list.slice(0, 6).map(hourData => ({
+                    time: new Date(hourData.dt * 1000).toLocaleTimeString([], { hour: 'numeric' }),
+                    temp: Math.floor(hourData.main.temp),
+                    pop: Math.round(hourData.pop * 100)
+                }));
+                setHourlyForecast(hours);
+
             } catch (forecastError) {
                 console.error("Forecast Fetch Error:", forecastError);
             }
@@ -140,19 +124,19 @@ const WeatherApp = () => {
                 let airData = await airRes.json();
                 console.log("🍃 Air Quality API Response:", airData);
 
-                const aqi = airData.list[0].main.aqi;
-                document.querySelector(".aqi").innerHTML = aqi + " AQI";
+                const aqiValue = airData.list[0].main.aqi;
+                setAqi(aqiValue + " AQI");
 
-                let aqiStatus = "Unknown";
-                switch (aqi) {
-                    case 1: aqiStatus = "Good"; break;
-                    case 2: aqiStatus = "Fair"; break;
-                    case 3: aqiStatus = "Moderate"; break;
-                    case 4: aqiStatus = "Poor"; break;
-                    case 5: aqiStatus = "Very Poor"; break;
-                    default: aqiStatus = "Unknown"; break; // ✅ default case added
+                let status = "Unknown";
+                switch (aqiValue) {
+                    case 1: status = "Good"; break;
+                    case 2: status = "Fair"; break;
+                    case 3: status = "Moderate"; break;
+                    case 4: status = "Poor"; break;
+                    case 5: status = "Very Poor"; break;
+                    default: status = "Unknown"; break;
                 }
-                document.querySelector(".aqi-status").innerHTML = aqiStatus;
+                setAqiStatus(status);
             } catch (airError) {
                 console.error("Air Quality Fetch Error:", airError);
             }
@@ -176,9 +160,9 @@ const WeatherApp = () => {
                 <div className="weather-image">
                     <img src={wicon} alt="weather" />
                 </div>
-                <div className="weather-temp">--°C</div>
-                <div className="weather-location">---</div>
-                <div className="weather-description">---</div>
+                <div className="weather-temp">{temperature}</div>
+                <div className="weather-location">{location}</div>
+                <div className="weather-description">{description}</div>
             </div>
 
             {/* Weather Info */}
@@ -186,43 +170,50 @@ const WeatherApp = () => {
                 <div className="info-card">
                     <img src={humidityIcon} alt="humidity" className="icon" />
                     <p>Humidity</p>
-                    <h4 className="humidity-percent">--%</h4>
+                    <h4 className="humidity-percent">{humidity}</h4>
                 </div>
                 <div className="info-card">
                     <img src={windIcon} alt="wind" className="icon" />
                     <p>Wind Speed</p>
-                    <h4 className="wind-rate">-- km/h</h4>
+                    <h4 className="wind-rate">{wind}</h4>
                 </div>
                 <div className="info-card">
                     <img src={rainIcon} alt="precipitation" className="icon" />
                     <p>Precipitation</p>
-                    <h4 className="precip-rate">--%</h4>
+                    <h4 className="precip-rate">{precip}</h4>
                 </div>
             </div>
 
             {/* Hourly Forecast */}
             <div className="section">
                 <h3>Hourly Forecast</h3>
-                <div className="hourly-forecast"></div>
+                <div className="hourly-forecast">
+                    {hourlyForecast.map((hour, idx) => (
+                        <div className="hour" key={idx}>
+                            {hour.time}
+                            <p>{hour.temp}° | {hour.pop}%</p>
+                        </div>
+                    ))}
+                </div>
             </div>
 
             {/* Extra Info */}
             <div className="extra-info">
                 <div className="card">
                     <h4>Air Quality</h4>
-                    <p className="aqi">-- AQI</p>
-                    <span className="aqi-status">--</span>
+                    <p className="aqi">{aqi}</p>
+                    <span className="aqi-status">{aqiStatus}</span>
                 </div>
                 <div className="card">
                     <h4>Feels Like</h4>
-                    <p className="feels-like">--°C</p>
+                    <p className="feels-like">{feelsLike}</p>
                 </div>
             </div>
 
             {/* Sunrise & Sunset */}
             <div className="sun-schedule">
-                <div className="sunrise">🌅 Sunrise <span>--</span></div>
-                <div className="sunset">🌇 Sunset <span>--</span></div>
+                <div className="sunrise">🌅 Sunrise <span>{sunrise}</span></div>
+                <div className="sunset">🌇 Sunset <span>{sunset}</span></div>
             </div>
         </div>
     );
